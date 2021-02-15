@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://kiegroup.org/dmn/_96B8CC11-5DC7-4402-9FEB-4B3F7C3239A4" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_EA1255C4-F299-4353-940A-1775F30E7DB5" name="Call_RestService" expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kiegroup.org/dmn/_96B8CC11-5DC7-4402-9FEB-4B3F7C3239A4">
+  <dmn:extensionElements/>
+  <dmn:itemDefinition id="_C7C0793B-9DBA-41BB-A9F7-D97F80F99D51" name="request" isCollection="false">
+    <dmn:itemComponent id="_2AAD4E88-466F-4C46-ACC3-C6FFA348B674" name="offset" isCollection="false">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_F304A723-7BCB-4B46-9124-DD3B499012E5" name="limit" isCollection="false"/>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="_3A7716FA-54E1-4043-AC0B-D22440409CEE" name="response" isCollection="true">
+    <dmn:itemComponent id="_0B0A9B40-148D-4985-9420-2AF841745930" name="name" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="_C6317D4E-4C94-4532-9C09-D213E0F62CF9" name="url" isCollection="false">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:businessKnowledgeModel id="_4FAAB40A-FE8C-4BDA-B244-60A222A12089" name="JavaClient">
+    <dmn:variable id="_F884EC33-2867-4E1B-8242-6AADDAB6A299" name="JavaClient" typeRef="response"/>
+    <dmn:encapsulatedLogic id="_347421A6-1F43-47A6-B7D3-C069A75C01CF" kind="Java">
+      <dmn:formalParameter id="_6CE25594-3076-4807-AAFC-6F5F6A91EB7B" name="p-1" typeRef="number"/>
+      <dmn:formalParameter id="_4CD25A1E-B36E-4418-84D2-D33EE41F6B34" name="p-2" typeRef="number"/>
+      <dmn:context id="_166C6E50-752A-4F1A-B1B9-87AF0DB13988">
+        <dmn:contextEntry>
+          <dmn:variable id="_A2045FBF-C2EC-41F9-95DD-272A778AA3CE" name="class" typeRef="string"/>
+          <dmn:literalExpression id="_5EDEEE09-34F3-4A02-A3DC-5979688A5E08">
+            <dmn:text>"com.pokemon.JavaClientService"</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+        <dmn:contextEntry>
+          <dmn:variable id="_9E5D1924-50D4-4521-8A39-C78896BEBEEA" name="method signature" typeRef="string"/>
+          <dmn:literalExpression id="_87D74F21-DE0B-4566-B2C4-E327399383A2">
+            <dmn:text>"getPokemonsList(double,double)"</dmn:text>
+          </dmn:literalExpression>
+        </dmn:contextEntry>
+      </dmn:context>
+    </dmn:encapsulatedLogic>
+  </dmn:businessKnowledgeModel>
+  <dmn:decision id="_B40DBE7C-129A-4F81-A68F-73C11E299B60" name="CallRestService">
+    <dmn:variable id="_DE62F82A-EBC8-4A4A-8790-C00E60A99995" name="CallRestService" typeRef="response"/>
+    <dmn:informationRequirement id="_600CFEE5-B555-44B0-887A-6300F7A1AF89">
+      <dmn:requiredInput href="#_ADA069A7-315F-407E-B19E-A05F86990700"/>
+    </dmn:informationRequirement>
+    <dmn:knowledgeRequirement id="_6A942D7D-BDD0-417F-A11A-15D0091BBCB9">
+      <dmn:requiredKnowledge href="#_4FAAB40A-FE8C-4BDA-B244-60A222A12089"/>
+    </dmn:knowledgeRequirement>
+    <dmn:invocation id="_076AB36F-F28E-4511-8E0F-A134899C6EA1">
+      <dmn:literalExpression id="_5A177743-0307-4702-9BCC-B5FFA3305665">
+        <dmn:text>JavaClient</dmn:text>
+      </dmn:literalExpression>
+      <dmn:binding>
+        <dmn:parameter id="_AEEB857D-C428-4714-B79D-2351034CEBBB" name="p-1" typeRef="number"/>
+        <dmn:literalExpression id="_4F66869A-689F-4FBB-9BC8-98300FD9832B">
+          <dmn:text>RequestService.limit</dmn:text>
+        </dmn:literalExpression>
+      </dmn:binding>
+      <dmn:binding>
+        <dmn:parameter id="_F4025D3C-34BE-4088-A785-F1FD5AEF20F6" name="p-2" typeRef="number"/>
+        <dmn:literalExpression id="_39C6C92E-A636-4651-B10D-3AB5DA350088">
+          <dmn:text>RequestService.offset</dmn:text>
+        </dmn:literalExpression>
+      </dmn:binding>
+    </dmn:invocation>
+  </dmn:decision>
+  <dmn:inputData id="_ADA069A7-315F-407E-B19E-A05F86990700" name="RequestService">
+    <dmn:variable id="_D4D088B2-3F69-4313-9583-700CBAFF8E63" name="RequestService" typeRef="request"/>
+  </dmn:inputData>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_166C6E50-752A-4F1A-B1B9-87AF0DB13988">
+            <kie:width>50.0</kie:width>
+            <kie:width>100.0</kie:width>
+            <kie:width>443.0</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5EDEEE09-34F3-4A02-A3DC-5979688A5E08">
+            <kie:width>443.0</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_87D74F21-DE0B-4566-B2C4-E327399383A2">
+            <kie:width>443.0</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_076AB36F-F28E-4511-8E0F-A134899C6EA1">
+            <kie:width>50.0</kie:width>
+            <kie:width>100.0</kie:width>
+            <kie:width>402.0</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_5A177743-0307-4702-9BCC-B5FFA3305665"/>
+          <kie:ComponentWidths dmnElementRef="_4F66869A-689F-4FBB-9BC8-98300FD9832B">
+            <kie:width>402.0</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_39C6C92E-A636-4651-B10D-3AB5DA350088">
+            <kie:width>402.0</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-_4FAAB40A-FE8C-4BDA-B244-60A222A12089" dmnElementRef="_4FAAB40A-FE8C-4BDA-B244-60A222A12089" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="826" y="67" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_B40DBE7C-129A-4F81-A68F-73C11E299B60" dmnElementRef="_B40DBE7C-129A-4F81-A68F-73C11E299B60" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="611" y="165" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-_ADA069A7-315F-407E-B19E-A05F86990700" dmnElementRef="_ADA069A7-315F-407E-B19E-A05F86990700" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="611" y="347" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-_600CFEE5-B555-44B0-887A-6300F7A1AF89" dmnElementRef="_600CFEE5-B555-44B0-887A-6300F7A1AF89">
+        <di:waypoint x="661" y="347"/>
+        <di:waypoint x="661" y="215"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-_6A942D7D-BDD0-417F-A11A-15D0091BBCB9" dmnElementRef="_6A942D7D-BDD0-417F-A11A-15D0091BBCB9">
+        <di:waypoint x="926" y="92"/>
+        <di:waypoint x="611" y="190"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>
